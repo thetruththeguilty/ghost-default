@@ -3,11 +3,12 @@ export function createDefaultGhost(target: any): {
 } {
   return new Proxy(target, {
     get: function (obj, prop) {
-      return function (defaultData: any) {
-        return function () {
+      return function () {
+        let args = arguments
+        return function (defaultData: any) {
           let fn = obj[prop]
           if (fn) {
-            return fn.apply(obj, arguments)
+            return fn.apply(obj, args)
           }
           else {
             return defaultData

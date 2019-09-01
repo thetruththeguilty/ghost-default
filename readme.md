@@ -10,7 +10,7 @@ let object = {
 
 let ghost = ghostDefault(object)
 
-ghost.hello("default value")("Alice") // => "hello Alice!"
-ghost.hi("default value")("Bob") // => "default value"
+ghost.hello("Alice")("default") // => "hello Alice!"
+ghost.hi("Bob")("default") // => "default"
 
 ```

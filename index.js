@@ -19,6 +19,26 @@ function createDefaultGhost(target) {
     });
 }
 exports.createDefaultGhost = createDefaultGhost;
+function createDynamicGhost(targetCb) {
+    return new Proxy({}, {
+        get: function (obj, prop) {
+            return function () {
+                let args = arguments;
+                return function (defaultData) {
+                    let target = targetCb() || obj;
+                    let fn = target[prop];
+                    if (fn) {
+                        return fn.apply(target, args);
+                    }
+                    else {
+                        return defaultData;
+                    }
+                };
+            };
+        }
+    });
+}
+exports.createDynamicGhost = createDynamicGhost;
 /**
  * Get the value at path of object.
  * If the resolved values is undefined, the defaultValue is returnted in its place.
